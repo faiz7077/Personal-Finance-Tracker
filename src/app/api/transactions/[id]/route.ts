@@ -1,14 +1,117 @@
-import { NextResponse } from 'next/server'
+// import { NextRequest, NextResponse } from 'next/server'
+// import connectDB from '@/lib/db'
+// import Transaction from '@/models/Transaction'
+// import { EXPENSE_CATEGORIES } from '@/lib/constants'
+
+// export async function DELETE(
+//   req: Request,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     const { id } = params
+//     if (!id) {
+//       return NextResponse.json(
+//         { error: 'Transaction ID is required' },
+//         { status: 400 }
+//       )
+//     }
+
+//     await connectDB()
+//     const transaction = await Transaction.findByIdAndDelete(id)
+    
+//     if (!transaction) {
+//       return NextResponse.json(
+//         { error: 'Transaction not found' },
+//         { status: 404 }
+//       )
+//     }
+    
+//     return NextResponse.json({ 
+//       message: 'Transaction deleted successfully',
+//       id 
+//     })
+//   } catch (error) {
+//     console.error('Delete transaction error:', error)
+//     return NextResponse.json(
+//       { error: 'Failed to delete transaction' },
+//       { status: 500 }
+//     )
+//   }
+// }
+
+// export async function PUT(
+//   req: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     const { id } = params
+//     console.log("id", id)
+//     if (!id) {
+//       return NextResponse.json(
+//         { error: 'Transaction ID is required' },
+//         { status: 400 }
+//       )
+//     }
+
+//     await connectDB()
+//     const body = await req.json()
+
+//     // Validate category
+//     if (body.category && !EXPENSE_CATEGORIES.includes(body.category)) {
+//       return NextResponse.json(
+//         { error: 'Invalid category' },
+//         { status: 400 }
+//       )
+//     }
+
+//     const transaction = await Transaction.findByIdAndUpdate(
+//       id,
+//       {
+//         ...body,
+//         date: new Date(body.date)
+//       },
+//       { new: true }
+//     )
+    
+//     if (!transaction) {
+//       return NextResponse.json(
+//         { error: 'Transaction not found' },
+//         { status: 404 }
+//       )
+//     }
+    
+//     return NextResponse.json(transaction)
+//   } catch (error) {
+//     console.error('Update transaction error:', error)
+//     return NextResponse.json(
+//       { error: 'Failed to update transaction' },
+//       { status: 500 }
+//     )
+//   }
+// } 
+
+
+import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/db'
 import Transaction from '@/models/Transaction'
 import { EXPENSE_CATEGORIES } from '@/lib/constants'
+import { AnyARecord } from 'dns'
+import { useParams } from 'next/navigation'
+interface RouteParams {
+  params: {
+    id: string;
+  }
+}
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    // Await the params to resolve the Promise
+    const { id } = await context.params
+
+
     if (!id) {
       return NextResponse.json(
         { error: 'Transaction ID is required' },
@@ -18,14 +121,14 @@ export async function DELETE(
 
     await connectDB()
     const transaction = await Transaction.findByIdAndDelete(id)
-    
+
     if (!transaction) {
       return NextResponse.json(
         { error: 'Transaction not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json({ 
       message: 'Transaction deleted successfully',
       id 
@@ -39,12 +142,12 @@ export async function DELETE(
   }
 }
 
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    // Await the params to resolve the Promise
+    const { id } = await context.params
+
     if (!id) {
       return NextResponse.json(
         { error: 'Transaction ID is required' },
@@ -71,15 +174,16 @@ export async function PUT(
       },
       { new: true }
     )
-    
+
     if (!transaction) {
       return NextResponse.json(
         { error: 'Transaction not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json(transaction)
+
   } catch (error) {
     console.error('Update transaction error:', error)
     return NextResponse.json(
@@ -87,4 +191,4 @@ export async function PUT(
       { status: 500 }
     )
   }
-} 
+}

@@ -44,6 +44,8 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
                 <div key={index} className="text-sm flex justify-between gap-2">
                   <div className="flex flex-col">
                     <span>{t.description}</span>
+                    <span className='text-sm'>{t.category}</span>
+            
                     <span className="text-xs text-muted-foreground">{t.date}</span>
                   </div>
                   <span className="text-red-600">
@@ -99,7 +101,8 @@ export default function MonthlyExpensesChart() {
       acc[month].transactions.push({
         description: transaction.description,
         amount: transaction.amount,
-        date: format(new Date(transaction.date), 'MMM d, yyyy')
+        date: format(new Date(transaction.date), 'MMM d, yyyy'),
+        category: transaction.category
       })
 
       return acc
