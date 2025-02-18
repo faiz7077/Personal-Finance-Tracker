@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import TransactionList from "@/components/global/TransactionList"
 import AddTransactionForm from "@/components/global/AddTransactionForm"
 import MonthlyExpensesChart from "@/components/global/MonthlyExpensesChart"
+import PieChartComponent from "@/components/global/PieChart"
+import Dashboard from "@/components/global/Dashboard"
 
 export default function Home() {
   return (
@@ -33,6 +35,24 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <TransactionList />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Pie Chart</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PieChartComponent />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Dashboard</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Dashboard />
         </CardContent>
       </Card>
     </main>

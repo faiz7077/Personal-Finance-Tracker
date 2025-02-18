@@ -164,6 +164,7 @@ export default function MonthlyExpensesChart() {
             radius={[4, 4, 0, 0]}
             name="Expenses"
             maxBarSize={50}
+          
           />
         </BarChart>
       </ResponsiveContainer>

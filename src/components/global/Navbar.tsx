@@ -9,15 +9,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export default function Navbar() {
   const { setTheme, theme } = useTheme()
 
+  // Define button styles based on the theme
+  const buttonStyles = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-blue-500 text-white'
+
   return (
     <div className="border-b">
-      <div className="container mx-auto p-4 flex justify-between items-center">
-        <h1 className="text-4xl font-bold">Personal Finance Tracker</h1>
-        
+      <div className="container mx-auto p-4 flex flex-row justify-between ">
+        <h1 className="text-3xl font-bold ">Personal Finance Tracker</h1>
+        <div className="flex flex-row gap-4">
+        <Button className={`hover:bg-blue-600 ${buttonStyles}`}>
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
@@ -38,6 +45,7 @@ export default function Navbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </div>
     </div>
   )
