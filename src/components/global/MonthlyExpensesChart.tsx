@@ -48,7 +48,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
             
                     <span className="text-xs text-muted-foreground">{t.date}</span>
                   </div>
-                  <span className="text-red-600">
+                  <span className="text-red-900900">
                     ${Math.abs(t.amount).toFixed(2)}
                   </span>
                 </div>

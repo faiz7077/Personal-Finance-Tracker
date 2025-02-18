@@ -8,22 +8,22 @@ export async function POST(req: Request) {
   try {
     await connectDB()
     const body = await req.json() as CreateTransactionInput
-    console.log('Category:', body.category)
+    // console.log('Category:', body.category)
     if (!body.category || !EXPENSE_CATEGORIES.includes(body.category)) {
       return NextResponse.json(
         { error: 'Valid category is required' },
         { status: 400 }
       )
     }
-    console.log('Category:', body.category)
-    console.log('Creating transaction...')
+    // console.log('Category:', body.category)
+    // console.log('Creating transaction...')
     const transaction = await Transaction.create({
       amount: body.amount,
       description: body.description,
       category: body.category,
       date: new Date(body.date)
     })
-    console.log('Transaction created:', transaction)
+    // console.log('Transaction created:', transaction)
     return NextResponse.json(transaction)
   } catch (error) {
     console.error('Create transaction error:', error)

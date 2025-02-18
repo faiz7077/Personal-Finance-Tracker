@@ -1,7 +1,13 @@
 import Dashboard from '@/components/global/Dashboard';
+import CategoryBudget from '@/components/global/CategoryBudget';
 
 const DashboardPage = () => {
-  return <Dashboard />;
+  return (
+    <div>
+      <Dashboard />
+      <CategoryBudget />
+    </div>
+  );
 };
 
-export default DashboardPage; 
+export default DashboardPage;

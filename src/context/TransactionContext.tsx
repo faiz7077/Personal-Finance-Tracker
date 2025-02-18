@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback } from 'react'
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react'
 import { Transaction } from '@/types/transaction'
 import { EXPENSE_CATEGORIES } from '@/lib/constants'
 
@@ -55,14 +55,16 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     setTransactions(prev => prev.filter(t => t._id !== id))
   }, [])
 
+  const value = useMemo(() => ({
+    transactions,
+    setTransactions,
+    addTransaction,
+    deleteTransaction,
+    refreshTransactions
+  }), [transactions, setTransactions, addTransaction, deleteTransaction, refreshTransactions])
+
   return (
-    <TransactionContext.Provider value={{
-      transactions,
-      setTransactions,
-      addTransaction,
-      deleteTransaction,
-      refreshTransactions
-    }}>
+    <TransactionContext.Provider value={value}>
       {children}
     </TransactionContext.Provider>
   )

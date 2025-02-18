@@ -4,6 +4,8 @@ import TransactionList from "@/components/global/TransactionList"
 import AddTransactionForm from "@/components/global/AddTransactionForm"
 import MonthlyExpensesChart from "@/components/global/MonthlyExpensesChart"
 import PieChartComponent from "@/components/global/PieChart"
+// import Dashboard from "@/components/global/Dashboard" // Component not found
+import CategoryBudget from "@/components/global/CategoryBudget"
 import Dashboard from "@/components/global/Dashboard"
 
 export default function Home() {
@@ -38,14 +40,7 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Pie Chart</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <PieChartComponent />
-        </CardContent>
-      </Card>
+
 
       <Card className="mt-6">
         <CardHeader>
@@ -53,6 +48,16 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <Dashboard />
+        </CardContent>
+      </Card>
+
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Monthly Category Budget</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CategoryBudget />
         </CardContent>
       </Card>
     </main>

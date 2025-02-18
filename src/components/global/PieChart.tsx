@@ -98,4 +98,3 @@ const PieChartComponent = (props: Props) => {
 };
 
 export default PieChartComponent;
-
