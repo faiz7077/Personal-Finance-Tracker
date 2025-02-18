@@ -6,7 +6,7 @@ import { useTransactions } from '@/context/TransactionContext';
 import { Transaction } from '@/types/transaction';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import { useTheme } from 'next-themes';
-import PieChartComponent from './Piechart';
+// import PieChartComponent from './Piechart';
 
 const LIGHT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#36A2EB', '#FFCE56'];
 const DARK_COLORS = ['#00509E', '#007A5E', '#CC9A00', '#CC4A00', '#CC4A84', '#1A5A9E', '#CC9A56'];

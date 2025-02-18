@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import TransactionList from "@/components/global/TransactionList"
 import AddTransactionForm from "@/components/global/AddTransactionForm"
 import MonthlyExpensesChart from "@/components/global/MonthlyExpensesChart"
-import PieChartComponent from "@/components/global/PieChart"
+// import PieChartComponent from "@/components/global/PieChart"
 // import Dashboard from "@/components/global/Dashboard" // Component not found
 import CategoryBudget from "@/components/global/CategoryBudget"
 import Dashboard from "@/components/global/Dashboard"
