@@ -39,7 +39,7 @@ const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const { name, description, category } = payload[0].payload;
     return (
-      <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+      <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc', color: 'black' }}>
         <p className="label" style={{ fontSize: '16px', fontWeight: 'bold' }}>{`${name}`}</p>
         <p className="intro" style={{ fontSize: '14px' }}>{`Description: ${description}`}</p>
         <p className="desc" style={{ fontSize: '12px', color: '#888' }}>{`Category: ${category}`}</p>

@@ -20,7 +20,11 @@ export default function Navbar() {
   return (
     <div className="border-b">
       <div className="container mx-auto p-4 flex flex-row justify-between ">
-        <h1 className="text-3xl font-bold ">Personal Finance Tracker</h1>
+        <Link href="/" passHref>
+          <h1 className="text-3xl font-bold cursor-pointer hover:text-blue-600">
+            Personal Finance Tracker
+          </h1>
+        </Link>
         <div className="flex flex-row gap-4">
         <Button className={`hover:bg-blue-600 ${buttonStyles}`}>
           <Link href="/dashboard">Dashboard</Link>

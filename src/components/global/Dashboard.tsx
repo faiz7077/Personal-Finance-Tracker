@@ -5,13 +5,29 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { useTransactions } from '@/context/TransactionContext';
 import { Transaction } from '@/types/transaction';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
+import { useTheme } from 'next-themes';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#36A2EB', '#FFCE56'];
+const LIGHT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#36A2EB', '#FFCE56'];
+const DARK_COLORS = ['#00509E', '#007A5E', '#CC9A00', '#CC4A00', '#CC4A84', '#1A5A9E', '#CC9A56'];
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px', color: 'black' }}>
+        <p className="label">{`${label}`}</p>
+        <p className="intro">{`Amount: $${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 const Dashboard = () => {
   const { transactions } = useTransactions();
+  const { theme } = useTheme();
   const [totalExpenses, setTotalExpenses] = useState(0);
-  const [weeklyData, setWeeklyData] = useState<{ week: string; amount: number }[]>([]);
+  const [weeklyData, setWeeklyData] = useState<{ week: string; amount: number; color: string }[]>([]);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [categoryData, setCategoryData] = useState<{ name: string; value: number }[]>([]);
 
@@ -22,18 +38,20 @@ const Dashboard = () => {
       setTotalExpenses(total);
 
       // Calculate weekly spending
-      const weeklyTotals = transactions.reduce((acc: { [key: string]: number }, transaction) => {
+      const colors = theme === 'dark' ? DARK_COLORS : LIGHT_COLORS;
+      const weeklyTotals = transactions.reduce((acc: { [key: string]: { amount: number; color: string } }, transaction) => {
         const week = `Week ${Math.ceil(new Date(transaction.date).getDate() / 7)}`;
         if (!acc[week]) {
-          acc[week] = 0;
+          acc[week] = { amount: 0, color: colors[Math.floor(Math.random() * colors.length)] };
         }
-        acc[week] += Math.abs(transaction.amount);
+        acc[week].amount += Math.abs(transaction.amount);
         return acc;
       }, {});
 
-      const chartData = Object.entries(weeklyTotals).map(([week, amount]) => ({
+      const chartData = Object.entries(weeklyTotals).map(([week, { amount, color }]) => ({
         week,
         amount,
+        color,
       }));
 
       setWeeklyData(chartData);
@@ -58,7 +76,7 @@ const Dashboard = () => {
       const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setRecentTransactions(sortedTransactions.slice(0, 5)); // Get the 5 most recent transactions
     }
-  }, [transactions]);
+  }, [transactions, theme]);
 
   return (
     <div className="dashboard space-y-4">
@@ -78,10 +96,25 @@ const Dashboard = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={weeklyData}>
-                <XAxis dataKey="week" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="amount" fill="#8884d8" />
+                <XAxis dataKey="week" stroke={theme === 'dark' ? 'white' : 'black'} />
+                <YAxis stroke={theme === 'dark' ? 'white' : 'black'} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar
+                  dataKey="amount"
+                  fill="#888888"
+                  onMouseOver={(data, index) => {
+                    const bar = document.querySelectorAll('.recharts-bar-rectangle')[index];
+                    if (bar) bar.setAttribute('fill', weeklyData[index].color);
+                  }}
+                  onMouseOut={(data, index) => {
+                    const bar = document.querySelectorAll('.recharts-bar-rectangle')[index];
+                    if (bar) bar.setAttribute('fill', '#8884d8');
+                  }}
+                >
+                  {weeklyData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill="#8884d8" />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -106,7 +139,7 @@ const Dashboard = () => {
                   dataKey="value"
                 >
                   {categoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={theme === 'dark' ? DARK_COLORS[index % DARK_COLORS.length] : LIGHT_COLORS[index % LIGHT_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
